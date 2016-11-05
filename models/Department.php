@@ -43,4 +43,9 @@ class Department extends \yii\db\ActiveRecord
             'university_id' => 'University ID',
         ];
     }
+
+    public function getCompany()
+    {
+        return $this->hasOne(University::className(), ['id' => 'university_id']);
+    }
 }
