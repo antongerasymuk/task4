@@ -15,7 +15,7 @@ class m161105_095157_create_homeworks_table extends Migration
         $this->createTable('homeworks', [
             'id' => $this->primaryKey(),
             'name' => $this->string(25),
-            'mark' => $this->integer(2),
+            'subject_id' => $this->integer(),
         ]);
     }
 

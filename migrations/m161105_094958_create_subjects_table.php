@@ -15,7 +15,7 @@ class m161105_094958_create_subjects_table extends Migration
         $this->createTable('subjects', [
             'id' => $this->primaryKey(),
             'name' => $this->string(25),
-            'departments_id' => $this->integer(),
+            'department_id' => $this->integer(),
         ]);
     }
 

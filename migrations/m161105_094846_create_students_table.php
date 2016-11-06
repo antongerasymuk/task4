@@ -15,7 +15,7 @@ class m161105_094846_create_students_table extends Migration
         $this->createTable('students', [
             'id' => $this->primaryKey(),
             'name' => $this->string(25),
-            'surmane' => $this->string(25),
+            'surname' => $this->string(25),
             'email' => $this->string(20),
             'telephone' => $this->string(10),
             'department_id' => $this->integer(),           
