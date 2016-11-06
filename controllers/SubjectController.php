@@ -95,7 +95,7 @@ class SubjectController extends Controller
                             $model->link('teachers', Teacher::findOne(['id' => $id]));
                         }
                     }
-            return $this->redirect(['view', 'id' => $model->with('department')->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -125,10 +125,10 @@ class SubjectController extends Controller
                     $model->link('teachers', Teacher::findOne(['id' => $id]));
                 }
             }
-            return $this->redirect(['view', 'id' => $model->with('department')->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model
             ]);
         }
 
@@ -169,7 +169,7 @@ class SubjectController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Subject::findOne($id)) !== null) {
+        if (($model = Subject::find()->with('department')->where(['id' => $id])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

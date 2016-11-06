@@ -8,8 +8,8 @@ use \app\helpers\ModelMapHelper;
 /* @var $this yii\web\View */
 /* @var $model app\models\Country */
 
-$this->title = 'Create Department';
-$this->params['breadcrumbs'][] = ['label' => 'Department', 'url' => ['index']];
+$this->title = 'Create Subject';
+$this->params['breadcrumbs'][] = ['label' => 'Subjects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="country-create">

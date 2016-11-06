@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= $form->field($model, 'mark')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'subject_id')->widget(Select2::classname(), [
-			'data'          => ModelMapHelper::getIdTitleMap(\app\models\Subject::class),
+			'data'          => ModelMapHelper::getIdTitleMap(\app\models\Subject::class,'title'),
 			'language'      => 'en',
 			'options'       => ['placeholder' => 'Select a state ...'],
 			'pluginOptions' => [

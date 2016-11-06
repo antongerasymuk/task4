@@ -31,7 +31,7 @@ class Student extends \yii\db\ActiveRecord
     {
         return [
             [['department_id'], 'integer'],
-            [['name', 'surmane'], 'string', 'max' => 25],
+            [['name', 'surname'], 'string', 'max' => 25],
             [['email'], 'string', 'max' => 20],
             [['telephone'], 'string', 'max' => 10],
         ];
