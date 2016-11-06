@@ -37,6 +37,7 @@ AppAsset::register($this);
     <a class="btn btn-default" href="/subject/">Subject</a>
     <a class="btn btn-default" href="/teacher/">Teacher</a>
     <a class="btn btn-default" href="/student/">Student</a>
+    <a class="btn btn-default" href="/site/migrate-up/">MakeDB</a>
     <p></p>
     
 
