@@ -27,9 +27,16 @@ class Homework extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['mark'], 'integer'],
+            
             [['name'], 'string', 'max' => 25],
+            [['subject_id'], 'integer'],
         ];
+    }
+
+
+    public function getSubject()
+    {
+        return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
 
     /**
@@ -40,7 +47,8 @@ class Homework extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'mark' => 'Mark',
+  
+            'subject_id' => 'Department ID',
         ];
     }
 }

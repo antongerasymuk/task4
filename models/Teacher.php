@@ -33,6 +33,17 @@ class Teacher extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getDepartment()
+    {
+        return $this->hasOne(Department::className(), ['id' => 'department_id']);
+    }
+
+    public function getSubjects()
+    {
+        return $this->hasMany(Subject::className(), ['id' => 'subject_id'])
+            ->viaTable('teacher_subject', ['teacher_id' => 'id']);
+    }
+
     /**
      * @inheritdoc
      */

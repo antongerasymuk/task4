@@ -8,8 +8,8 @@ use \app\helpers\ModelMapHelper;
 /* @var $this yii\web\View */
 /* @var $model app\models\Country */
 
-$this->title = 'Create Country';
-$this->params['breadcrumbs'][] = ['label' => 'Countries', 'url' => ['index']];
+$this->title = 'Create Department';
+$this->params['breadcrumbs'][] = ['label' => 'Department', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="country-create">
@@ -20,19 +20,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
 		<?php $form = ActiveForm::begin(); ?>
 
-		<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+		<?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-		<?= $form->field($model, 'mark')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'subject_id')->widget(Select2::classname(), [
-			'data'          => ModelMapHelper::getIdTitleMap(\app\models\Subject::class),
+		<?= $form->field($model, 'department_id')->widget(Select2::classname(), [
+			'data'          => ModelMapHelper::getIdTitleMap(\app\models\Department::class),
 			'language'      => 'en',
 			'options'       => ['placeholder' => 'Select a state ...'],
 			'pluginOptions' => [
 			'allowClear' => true
 			],
-			])->label('Subject');
+			])->label('Department');
 		?>
+		<?= $form->field($model, 'teacherIds')->widget(Select2::classname(), [
+			'data'          => ModelMapHelper::getIdTitleMap(\app\models\Teacher::class),
+			'language'      => 'en',
+			'options'       => ['multiple' => true, 'placeholder' => 'Select a state ...'],
+			'pluginOptions' => [
+			'allowClear' => true
+			],
+			])->label('Teachers');
+		?>
+
 		<div class="form-group">
 			<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		</div>

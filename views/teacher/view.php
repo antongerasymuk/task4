@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Country */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Homework', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Teachers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="country-view">
@@ -29,7 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'name',
-            'subject.title'            
+            'surname',
+            'department.name',
         ],
     ]) ?>
 

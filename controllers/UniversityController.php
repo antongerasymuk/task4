@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use Yii;
 use app\models\University;
-//use app\models\CountrySearch;
 use app\models\Department;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
@@ -106,6 +105,7 @@ class UniversityController extends Controller
      */
     public function actionDelete($id)
     {
+       
        $modelDepartment = Department::find()->where(['university_id' => $id])->all();
        foreach ($modelDepartment as $department) {
            $department->university_id = NULL;

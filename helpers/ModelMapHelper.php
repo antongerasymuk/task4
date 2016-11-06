@@ -20,8 +20,8 @@ class ModelMapHelper
         return ArrayHelper::map($prosData, $key, $value);
     }
 
-    public static function getIdTitleMap($model)
+    public static function getIdTitleMap($model, $fieldName = 'name')
     {
-        return self::get($model, 'id, name', 'id', 'name');
+        return self::get($model, 'id, '.$fieldName, 'id', $fieldName);
     }
 }

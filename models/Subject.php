@@ -13,6 +13,9 @@ use Yii;
  */
 class Subject extends \yii\db\ActiveRecord
 {
+    
+    
+    public $teacherIds; 
     /**
      * @inheritdoc
      */
@@ -27,9 +30,22 @@ class Subject extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['departments_id'], 'integer'],
-            [['name'], 'string', 'max' => 25],
+            [['department_id'], 'integer'],
+            [['title'], 'string', 'max' => 25],
+            [['teacherIds'], 'safe'],
+           
         ];
+    }
+
+    public function getDepartment()
+    {
+        return $this->hasOne(Department::className(), ['id' => 'department_id']);
+    }
+    
+    public function getTeachers()
+    {
+        return $this->hasMany(Teacher::className(), ['id' => 'teacher_id'])
+            ->viaTable('teacher_subject', ['subject_id' => 'id']);
     }
 
     /**
@@ -39,8 +55,8 @@ class Subject extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'departments_id' => 'Departments ID',
+            'title' => 'Title',
+            'department_id' => 'Departments ID',
         ];
     }
 }

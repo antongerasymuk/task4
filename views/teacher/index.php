@@ -7,25 +7,25 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\CountrySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Homeworks';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Teacher';
+$this->params['breadcrumbs'][] = $this->title
 ?>
-<div class="homework-index">
+<div class="teacher-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create homework', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create teacher', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'name',
-            ['attribute' => 'subject',
-            'value' => 'subject.title'],
+            'surname',
+            ['attribute' => 'department',
+            'value' => 'department.name'],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

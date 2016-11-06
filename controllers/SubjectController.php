@@ -3,10 +3,9 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Department;
-use app\models\Student;
-use app\models\Teachers;
-use app\models\Subjects;
+use app\models\Subject;
+use app\models\Teacher;
+//use app\models\CountrySearch;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
@@ -15,7 +14,7 @@ use yii\filters\VerbFilter;
 /**
  * CountryController implements the CRUD actions for Country model.
  */
-class DepartmentController extends Controller
+class SubjectController extends Controller
 {
     /**
      * @inheritdoc
@@ -33,15 +32,35 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Lists all Department models.
+     * Lists all Subject models.
      * @return mixed
      */
     public function actionIndex()
     {
-                
+         //$query = Tour::find();
+    // Important: lets join the query with our previously mentioned relations
+    // I do not make any other configuration like aliases or whatever, feel free
+    // to investigate that your self
+    //$query->joinWith(['city', 'country']);
+
+
+        //$subject = Subject::find()->select(['subjects.id', 'subjects.title', 'departments.name'])->joinWith('department');
+        //$subject = Subject::find()->joinWith('department');
+        $subject = Subject::find()->with('department');
+
+        
+          
+
+            
         $dataProvider = new ActiveDataProvider([
-            'query' => Department::find(),
+            'query' => $subject,
         ]);
+
+
+        //echo "<pre>";
+        //var_dump( $dataProvider);
+        //echo "</pre>";
+        //exit;  
         
         return $this->render('index', [
             
@@ -50,7 +69,7 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Displays a single Department model.
+     * Displays a single Subject model.
      * @param string $id
      * @return mixed
      */
@@ -62,25 +81,36 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Creates a new Department model.
+     * Creates a new Subject model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Department();
+        $model = new Subject();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if (!empty($model->teacherIds)) {
+                        foreach ($model->teacherIds as $id) {
+                            $model->link('teachers', Teacher::findOne(['id' => $id]));
+                        }
+                    }
+            return $this->redirect(['view', 'id' => $model->with('department')->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
+        
+        $model->teachersIds = ArrayHelper::map($model
+            ->getTeacher()
+            ->select('id')
+            ->asArray()
+            ->all(), 'id', 'id');
     }
 
     /**
-     * Updates an existing Department model.
+     * Updates an existing Subject model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -90,47 +120,48 @@ class DepartmentController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if (!empty($model->teacherIds)) {
+                foreach ($model->teacherIds as $id) {
+                    $model->link('teachers', Teacher::findOne(['id' => $id]));
+                }
+            }
+            return $this->redirect(['view', 'id' => $model->with('department')->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+
+        $model->teachersIds = ArrayHelper::map($model
+            ->getTeacher()
+            ->select('id')
+            ->asArray()
+            ->all(), 'id', 'id');
     }
 
     /**
-     * Deletes an existing Department model.
+     * Deletes an existing Subject model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-
-        $modelSubject = Subject::find()->where(['department_id' => $id])->all();
-        $modelTeacher = Subject::find()->where(['department_id' => $id])->all();
-        $modelStudent = Subject::find()->where(['department_id' => $id])->all();
-
-        foreach ($modelSubject as $subject) {
-           $subject->department_id = NULL;
-           $subject->save(false);
+       
+       $model = Subject::findOne($id);
+       $modelHomework = Homework::find()->where(['department_id' => $id])->all();
+       foreach ($modelHomework as $homework) {
+           $homework->subject_id = NULL;
+           $homework->save(false);
         }
-        foreach ($modelTeacher as $teacher) {
-           $teacher->department_id = NULL;
-           $teacher->save(false);
-        }
-        foreach ($modelStudent as $student) {
-           $student->department_id = NULL;
-           $student->save(false);
-        }
-
         $this->findModel($id)->delete();
+        $model->unlinkAll('teachers', true);
 
         return $this->redirect(['index']);
-   }
+    }
 
     /**
-     * Finds the Department model based on its primary key value.
+     * Finds the Subject model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
      * @return Country the loaded model
@@ -138,7 +169,7 @@ class DepartmentController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Department::findOne($id)) !== null) {
+        if (($model = Subject::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

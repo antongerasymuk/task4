@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Homework;
+use app\models\Subject;
 //use app\models\CountrySearch;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
@@ -36,9 +37,10 @@ class HomeworkController extends Controller
      */
     public function actionIndex()
     {
-                
+        
+        $homework = Homework::find()->with('subject');        
         $dataProvider = new ActiveDataProvider([
-            'query' => Homework::find(),
+            'query' => $homework ,
         ]);
         
         return $this->render('index', [
@@ -69,7 +71,7 @@ class HomeworkController extends Controller
         $model = new Homework();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->with('subject')->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -118,7 +120,7 @@ class HomeworkController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Homework::findOne($id)) !== null) {
+        if (($model = Homework::find()->with('subject')->where(['id' => $id])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

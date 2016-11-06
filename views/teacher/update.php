@@ -1,13 +1,15 @@
 <?php
 
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
+use \app\helpers\ModelMapHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Country */
 
-$this->title = 'Update Country: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Countries', 'url' => ['index']];
+$this->title = 'Update Teacher: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Teachers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
@@ -20,10 +22,18 @@ $this->params['breadcrumbs'][] = 'Update';
 		<?php $form = ActiveForm::begin(); ?>
 
 		<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+		<?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?>
 
-		<?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
-
-		<?= $form->field($model, 'site')->textInput() ?>
+		<?= $form->field($model, 'department_id')->widget(Select2::classname(), [
+			'data'          => ModelMapHelper::getIdTitleMap(\app\models\Department::class),
+			'language'      => 'en',
+			'options'       => ['placeholder' => 'Select a state ...'],
+			'pluginOptions' => [
+			'allowClear' => true
+			],
+			])->label('Departament');
+		?>
+		
 
 		<div class="form-group">
 			<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -37,6 +37,11 @@ class Student extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getDepartment()
+    {
+        return $this->hasOne(Department::className(), ['id' => 'department_id']);
+    }
+
     /**
      * @inheritdoc
      */
